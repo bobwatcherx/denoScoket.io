@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>socket client</title>
+	<script type="text/javascript"
+	src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.3/socket.io.min.js"
+	></script>
+</head>
+<body>
+	<!-- GET INPUT CLIENT -->
+	<input type="text" id="txtinput" name="">
+	<!-- CREATE LISTDATA FOR VIEW YOU SEND INPUT  -->
+	<div id="listdata"></div>
+
+	<button
+	id="btn"
+	>Send</button>
+</body>
+<script>
+	const socket = io("http://localhost:3000/",{
+		withCredentials:true
+	});
+	let btn = document.getElementById("btn")
+	btn.addEventListener("click",function(){
+		const txtinput = document.getElementById("txtinput").value
+		alert("you message : " + txtinput)
+		// SEND TO SERVER 
+		 socket.emit("newMSG", txtinput);
+
+	})
+	// LISTEN FROM SERVER IF DATA SEND
+	socket.on("sendallMSG", (p) => {
+		alert("new message : " + p.data)
+		  console.log("new message " + p.data); // world
+			listdata.insertAdjacentHTML("afterend","<br/>" + p.data)
+		});
+
+</script>
+
+	<!-- NOW SERVE YOU HTML FILE -->
+	<!-- npm install -g http-server -->
+</html>
